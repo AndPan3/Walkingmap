@@ -2,9 +2,10 @@ from geopy.geocoders import Nominatim
 import time
 import cartons
 import webbrowser
+from branca.element import Element
 
 #Adres-Coords
-geolocator = Nominatim(user_agent= "AndPan3_WalkingAPP")
+geolocator = Nominatim(user_agent= "YOUR_USER_AGENT")
 
 print("type location 1")
 adress1 = input()
@@ -38,16 +39,28 @@ startlat = z.latitude
 endlon = q.longitude
 endlat = q.latitude
 
-route=cartons.get_route("https://router.project-osrm.org", startlon,startlat,endlon,endlat,"foot")
+route=cartons.get_route("YOUR_BASE_URL", startlon,startlat,endlon,endlat,transport="foot")
 
 
 coords= route.geometry
-duration=route.duration
-distance=route.distance
+duration=route.duration / 60
+distance=route.distance / 1000
 #map
-map_route = cartons.fastdraw(coords,"red","5","OpenStreetMap")
-#NEXT: einbindne duration and distance in map (map is folium)
+swappedcords = [(lon, lat) for lat, lon in coords]
+html = "<h1>Hello Map</h1>"
+map_route = cartons.fastdraw(swappedcords,"red","5",tiles="CartoDB Positron",attribution="© CartoDB Positron",)
+#html
+html = html = f"""
+<div style="position:fixed; top:50px; left:50px; background:white;">
+<ul>
+    <li>Distance = {distance:.2f} km</li>
+    <li>Duration = {duration:.2f} min</li>
+</ul>
+</div>
+"""
+map_route.get_root().html.add_child(Element(html))
+
 filename = "route.html"
-map_route=filename
+map_route.save(filename)
 webbrowser.open(filename)
 
