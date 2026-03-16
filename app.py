@@ -8,29 +8,29 @@ from branca.element import Element
 geolocator = Nominatim(user_agent= "YOUR_USER_AGENT")
 
 print("type location 1")
-adress1 = input()
-z = geolocator.geocode(adress1)
+address1 = input()
+z = geolocator.geocode(address1)
 
 if z is None:
     print("could not find adress, please try again, reccomended formatting is, Street, Housenumber, City, Country")
-    adress1=input()
-    z= geolocator.geocode(adress1)
+    address1=input()
+    z= geolocator.geocode(address1)
     if z is None:
-        print("Sorry, there is a problem with the Adress, it may be beacouse of bad formatting or the Adress dosen't exist in th OpenStreetMap Database")
+        print("Sorry, there is a problem with the Address, it may be beacouse of bad formatting or the Adress dosen't exist in th OpenStreetMap Database")
         exit()
         
 time.sleep(1)
 
 print("type location 2")
-adress2 = input()
-q = geolocator.geocode(adress2)
+address2 = input()
+q = geolocator.geocode(address2)
 
 if q is None:
-    print("could not find adress, please try again, reccomended formatting is, Street, Housenumber, City, Country")
-    adress2=input()
-    q=geolocator.geocode(adress2)
+    print("could not find address, please try again, reccomended formatting is, Street, Housenumber, City, Country")
+    address2=input()
+    q=geolocator.geocode(address2)
     if q is None:
-        print("Sorry, there is a problem with the Adress, it may be beacouse of bad formatting or the Adress dosen't exist in th OpenStreetMap Database")
+        print("Sorry, there is a problem with the Address, it may be beacouse of bad formatting or the Adress dosen't exist in th OpenStreetMap Database")
         exit()
 time.sleep(1)
 #route
@@ -43,7 +43,7 @@ route=cartons.get_route("YOUR_BASE_URL", startlon,startlat,endlon,endlat,transpo
 
 
 coords= route.geometry
-duration=route.duration / 60
+duration=route.duration / 60, 1
 distance=route.distance / 1000
 #map
 swappedcords = [(lon, lat) for lat, lon in coords]
